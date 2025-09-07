@@ -4,8 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -14,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
@@ -137,7 +140,8 @@ fun CustomerSupportChat() {
                 )
             }
 
-            // Message input area
+            var text by remember { mutableStateOf("") }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -152,18 +156,33 @@ fun CustomerSupportChat() {
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Type here...",
-                    fontSize = 18.sp,
-                    color = Color(0xFFDBDADA),
-                    fontWeight = FontWeight.SemiBold,
+                BasicTextField(
+                    value = text,
+                    onValueChange = { text = it },
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 27.dp)
+                        .fillMaxHeight()          // ① 关键：撑满 70.dp
+                        .padding(start = 27.dp),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(0xFFDBDADA)
+                    ),
+                    decorationBox = { innerTextField ->
+                        if (text.isEmpty()) {
+                            Text(
+                                text = "Type here...",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color(0xFFDBDADA)
+                            )
+                        }
+                        innerTextField()
+                    }
                 )
 
                 IconButton(
-                    onClick = { /* Handle send */ },
+                    onClick = { /* 发送逻辑 */ },
                     modifier = Modifier
                         .size(70.dp)
                         .background(Color(0xFFEF2A39), RoundedCornerShape(20.dp))
