@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -141,50 +142,55 @@ fun CustomerSupportChat() {
             }
 
             var text by remember { mutableStateOf("") }
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 26.dp, end = 26.dp, bottom = 27.dp)
                     .height(70.dp)
-                    .background(Color.White, RoundedCornerShape(20.dp))
                     .shadow(
                         elevation = 8.dp,
                         shape = RoundedCornerShape(20.dp),
                         ambientColor = Color.Black.copy(alpha = 0.18f),
                         spotColor = Color.Black.copy(alpha = 0.18f)
-                    ),
-                verticalAlignment = Alignment.CenterVertically
+                    )
+                    .background(Color.White, RoundedCornerShape(20.dp)),
+                verticalAlignment = Alignment.CenterVertically      // ② 整行居中
             ) {
                 BasicTextField(
                     value = text,
                     onValueChange = { text = it },
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxHeight()          // ① 关键：撑满 70.dp
+                        .fillMaxHeight()      // ① 撑满 70 dp
                         .padding(start = 27.dp),
                     textStyle = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(0xFFDBDADA)
                     ),
+                    cursorBrush = SolidColor(Color(0xFFDBDADA)),
                     decorationBox = { innerTextField ->
-                        if (text.isEmpty()) {
-                            Text(
-                                text = "Type here...",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color(0xFFDBDADA)
-                            )
+                        Row(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalAlignment = Alignment.CenterVertically // ③ hint 垂直居中
+                        ) {
+                            if (text.isEmpty()) {
+                                Text(
+                                    text = "Type here...",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color(0xFFDBDADA)
+                                )
+                            }
+                            innerTextField()
                         }
-                        innerTextField()
                     }
                 )
 
                 IconButton(
                     onClick = { /* 发送逻辑 */ },
                     modifier = Modifier
-                        .size(70.dp)
+                        .size(70.dp)          // 与左侧同高
                         .background(Color(0xFFEF2A39), RoundedCornerShape(20.dp))
                 ) {
                     Image(
