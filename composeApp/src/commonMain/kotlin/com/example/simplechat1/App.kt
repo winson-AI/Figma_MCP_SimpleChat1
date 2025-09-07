@@ -147,13 +147,13 @@ fun CustomerSupportChat() {
                     .fillMaxWidth()
                     .padding(start = 26.dp, end = 26.dp, bottom = 27.dp)
                     .height(70.dp)
-                    .background(Color.White, RoundedCornerShape(20.dp))
                     .shadow(
                         elevation = 8.dp,
                         shape = RoundedCornerShape(20.dp),
                         ambientColor = Color.Black.copy(alpha = 0.18f),
                         spotColor = Color.Black.copy(alpha = 0.18f)
-                    ),
+                    )
+                    .background(Color.White, RoundedCornerShape(20.dp)),
                 verticalAlignment = Alignment.CenterVertically      // ② 整行居中
             ) {
                 BasicTextField(
